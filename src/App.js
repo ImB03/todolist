@@ -5,6 +5,9 @@ export default function App() {
   const [job, setJob] = useState("");
 
   const handleSubmit = () => {
+    if (job.length === 0) {
+      return alert("Please enter something!");
+    }
     setJobs((prev) => [...prev, job]);
     setJob("");
   };
@@ -13,19 +16,21 @@ export default function App() {
     const newJobs = [...jobs];
     newJobs.splice(index, 1);
     setJobs(newJobs);
-    
   };
   return (
     <div style={{ padding: 32 }}>
-      <input value={job} onChange={(e) => setJob(e.target.value)} />
+      <input
+        className="enter-value"
+        value={job}
+        onChange={(e) => setJob(e.target.value)}
+      />
       <button onClick={handleSubmit}>Add</button>
       <ul>
         {jobs.map((job, index) => {
           return (
-            
-              <li key={index}>{job} <button value={index} onClick={()=>handleDelete(index)}>Delete</button></li>
-              
-            
+            <li key={index}>
+              {job} <button onClick={() => handleDelete(index)}>Delete</button>
+            </li>
           );
         })}
       </ul>
