@@ -1,50 +1,22 @@
 import React, { useState } from "react";
-//mock data
-import data from "./data.json";
-//components
-import Header from "./Header";
-import ToDoList from "./ToDoList";
-import ToDoForm from "./ToDoForm";
 
-function App() {
-  const [toDoList, setToDoList] = useState(data);
+export default function App() {
+  const [jobs, setJobs] = useState([]);
+  const [job, setJob] = useState("");
 
-  const handleToggle = (id) => {
-    let mapped = toDoList.map((task) => {
-      return task.id === Number(id)
-        ? { ...task, complete: !task.complete }
-        : { ...task };
-    });
-    setToDoList(mapped);
+  const handleSubmit = () => {
+    setJobs((prev) => [...prev, job]);
+    setJob("");
   };
-
-  const handleFilter = () => {
-    let filtered = toDoList.filter((task) => {
-      return !task.complete;
-    });
-    setToDoList(filtered);
-  };
-
-  const addTask = (userInput) => {
-    let copy = [...toDoList];
-    copy = [
-      ...copy,
-      { id: toDoList.length + 1, task: userInput, complete: false },
-    ];
-    setToDoList(copy);
-  };
-
   return (
-    <div className="App">
-      <Header />
-      <ToDoList
-        toDoList={toDoList}
-        handleToggle={handleToggle}
-        handleFilter={handleFilter}
-      />
-      <ToDoForm addTask={addTask} />
+    <div style={{ padding: 32 }}>
+      <input value={job} onChange={(e) => setJob(e.target.value)} />
+      <button onClick={handleSubmit}>Add</button>
+      <ul>
+        {jobs.map((job, index) => {
+          return <li key={index}>{job}</li>;
+        })}
+      </ul>
     </div>
   );
 }
-
-export default App;
