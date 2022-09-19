@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 export default function App() {
   const [jobs, setJobs] = useState([]);
   const [job, setJob] = useState("");
+
+  const inputRef = useRef();
 
   const handleSubmit = () => {
     if (job.length === 0) {
@@ -10,6 +12,7 @@ export default function App() {
     }
     setJobs((prev) => [...prev, job]);
     setJob("");
+    inputRef.current.focus();
   };
 
   const handleDelete = (index) => {
@@ -17,9 +20,16 @@ export default function App() {
     newJobs.splice(index, 1);
     setJobs(newJobs);
   };
+
+  const handleUpdate = (index) => {
+    
+  };
+
+
   return (
     <div style={{ padding: 32 }}>
       <input
+        ref={inputRef}
         className="enter-value"
         value={job}
         onChange={(e) => setJob(e.target.value)}
@@ -29,7 +39,7 @@ export default function App() {
         {jobs.map((job, index) => {
           return (
             <li key={index}>
-              {job} <button onClick={() => handleDelete(index)}>Delete</button>
+              {job} <button onClick={handleUpdate()} >Update</button> <button onClick={() => handleDelete(index)}>Delete</button>
             </li>
           );
         })}
